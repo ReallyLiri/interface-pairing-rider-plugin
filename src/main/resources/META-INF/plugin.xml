@@ -1,27 +1,17 @@
 <idea-plugin>
     <id>com.reallyliri.plugins.interface_pairing_plugin</id>
-    <name>Plugin display name here</name>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <name>Interface Pairing</name>
+    <vendor email="reallyliri@gmail.com" url="https://www.reallyliri.com">ReallyLiri</vendor>
+    <version>1.0</version>
 
-    <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
-    ]]></description>
+    <description>description is here to stay !!!!!!!!!!!!!!!</description>
 
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-         on how to target different products -->
-    <!-- uncomment to enable plugin in all products
-    <depends>com.intellij.modules.lang</depends>
-    -->
+    <depends>com.intellij.modules.rider</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <solutionExplorerCustomization implementation="com.reallyliri.plugins.interface_pairing_plugin.SlnExplorer"/>
     </extensions>
 
     <actions>
-        <group id="MyPlugin.SampleMenu" text="Greeting" description="Greeting menu">
-            <add-to-group group-id="MainMenu" anchor="last"/>
-            <action id="Myplugin.Textboxes" class="HelloAction" text="Hello" description="Says hello"/>
-        </group>
     </actions>
 </idea-plugin>
