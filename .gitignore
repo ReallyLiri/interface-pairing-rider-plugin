@@ -22,3 +22,5 @@
 build
 .gradle
 !gradle-wrapper.jar
+
+.DS_Store

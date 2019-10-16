@@ -1,6 +1,19 @@
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.50'
     id 'org.jetbrains.intellij' version '0.4.10'
+}
+
+
+repositories {
+    maven { url "https://www.jetbrains.com/intellij-repository/releases" }
+    maven { url "https://jetbrains.bintray.com/intellij-third-party-dependencies" }
+    mavenCentral()
+    jcenter()
+}
+
+instrumentCode {
+    compilerVersion = "192.6817.32"
 }
 
 group 'com.reallyliri.plugins'
@@ -8,18 +21,22 @@ version '1.0'
 
 sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
+compileKotlin {
+    kotlinOptions { jvmTarget = "1.8" }
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
-// See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version '2019.1.3'
+    // see https://www.jetbrains.com/help/resharper/sdk/Products/Rider.html#plugin-project-jvm
+    type = 'RD'
+    version = "2019.2-SNAPSHOT"
+    downloadSources = false
 }
+
+
 patchPluginXml {
     changeNotes """
       Add change notes here.<br>
