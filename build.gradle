@@ -4,7 +4,6 @@ plugins {
     id 'org.jetbrains.intellij' version '0.4.10'
 }
 
-
 repositories {
     maven { url "https://www.jetbrains.com/intellij-repository/releases" }
     maven { url "https://jetbrains.bintray.com/intellij-third-party-dependencies" }
@@ -13,7 +12,7 @@ repositories {
 }
 
 instrumentCode {
-    compilerVersion = "192.6817.32"
+    compilerVersion = "192.6817.32" // latest build of com.jetbrains.intellij.java from https://www.jetbrains.com/intellij-repository/releases/
 }
 
 group 'com.reallyliri.plugins'
@@ -34,11 +33,4 @@ intellij {
     type = 'RD'
     version = "2019.2-SNAPSHOT"
     downloadSources = false
-}
-
-
-patchPluginXml {
-    changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
 }
