@@ -1,6 +1,6 @@
 # Interface Pairing JetBrains Rider Plugin
 
-![icon](./src/main/resources/META-INF/pluginIcon.svg)
+<img src="src/main/resources/META-INF/pluginIcon.svg" alt="drawing" width="40"/>
 
 [![badge](https://img.shields.io/jetbrains/plugin/v/13185-interface-pairing.svg?label=Rider%20plugin)](https://plugins.jetbrains.com/plugin/13185-interface-pairing)
 
@@ -18,7 +18,7 @@ gradle build
 
 Plugin artifact will be written to
 
-`build/libs/interface-pairing-rider-plugin-1.0.jar`
+`build/libs/interface-pairing-rider-plugin-<version>.jar`
 
 ## Publish
 
