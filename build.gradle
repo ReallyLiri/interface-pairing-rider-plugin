@@ -34,3 +34,8 @@ intellij {
     version = "2019.2-SNAPSHOT"
     downloadSources = false
 }
+
+publishPlugin {
+    token = System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken")
+    channels = 'beta'
+}

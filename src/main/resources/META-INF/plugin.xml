@@ -1,15 +1,15 @@
 <idea-plugin>
-    <id>com.reallyliri.plugins.interface_pairing_plugin</id>
+    <id>com.reallyliri.plugins.interfacepairing</id>
     <name>Interface Pairing</name>
-    <vendor email="reallyliri@gmail.com" url="https://www.reallyliri.com">ReallyLiri</vendor>
+    <vendor url="https://github.com/reallyliri">ReallyLiri</vendor>
     <version>1.0</version>
 
-    <description>description is here to stay !!!!!!!!!!!!!!!</description>
+    <description>Pairing C# interface files with implementations files in solution explorer for a better display experience.</description>
 
     <depends>com.intellij.modules.rider</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <solutionExplorerCustomization implementation="com.reallyliri.plugins.interface_pairing_plugin.InterfacePairingSolutionExplorerCustomization"/>
+        <solutionExplorerCustomization implementation="com.reallyliri.plugins.interfacepairing.InterfacePairingSolutionExplorerCustomization"/>
     </extensions>
 
     <actions>
