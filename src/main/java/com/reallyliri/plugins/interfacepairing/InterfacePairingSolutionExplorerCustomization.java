@@ -1,4 +1,4 @@
-package com.reallyliri.plugins.interface_pairing_plugin;
+package com.reallyliri.plugins.interfacepairing;
 
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.openapi.diagnostic.Logger;
@@ -72,6 +72,9 @@ public class InterfacePairingSolutionExplorerCustomization extends SolutionExplo
 
     private void setNodeSortKey(ProjectModelNode node, int sortKey) {
         RdProjectFileDescriptor fileDescriptor = (RdProjectFileDescriptor) node.getDescriptor();
+        if (fileDescriptor.getSortKey() != null && fileDescriptor.getSortKey() == sortKey) {
+            return;
+        }
         RdProjectFileDescriptor newDescriptor = new RdProjectFileDescriptor(
             fileDescriptor.isInternal(),
             fileDescriptor.isLinked(),

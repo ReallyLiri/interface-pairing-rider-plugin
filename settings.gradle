@@ -1,2 +1,2 @@
-rootProject.name = 'interface_pairing_plugin'
+rootProject.name = 'interface-pairing-rider-plugin'
 gradle.ext.resharperPluginProjectName = 'InterfacePairing'
