@@ -2,6 +2,8 @@
 
 ![icon](./src/main/resources/META-INF/pluginIcon.svg)
 
+[![badge](https://img.shields.io/jetbrains/plugin/v/13185-interface-pairing.svg?label=Rider%20plugin)](https://plugins.jetbrains.com/plugin/13185-interface-pairing)
+
 https://plugins.jetbrains.com/plugin/13185-interface-pairing
 
 Pairing C# interface files with implementations files in solution explorer for a better display experience.
