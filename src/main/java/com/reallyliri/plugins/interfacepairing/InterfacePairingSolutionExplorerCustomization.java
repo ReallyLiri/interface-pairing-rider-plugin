@@ -6,6 +6,7 @@ import com.intellij.openapi.project.Project;
 import com.jetbrains.rider.model.RdProjectFileDescriptor;
 import com.jetbrains.rider.projectView.nodes.ProjectModelNode;
 import com.jetbrains.rider.projectView.views.solutionExplorer.SolutionExplorerCustomization;
+import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,9 @@ public class InterfacePairingSolutionExplorerCustomization extends SolutionExplo
     @NotNull
     @Override
     public List<AbstractTreeNode<?>> getChildren(@NotNull ProjectModelNode parentNode) {
-        setInterfacePairingSortKeys(parentNode);
+        if (!EventQueue.isDispatchThread()) {
+            setInterfacePairingSortKeys(parentNode);
+        }
         return super.getChildren(parentNode); // always returns empty, but its fine
     }
 
