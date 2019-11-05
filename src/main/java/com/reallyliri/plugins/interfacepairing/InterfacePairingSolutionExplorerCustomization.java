@@ -34,7 +34,7 @@ public class InterfacePairingSolutionExplorerCustomization extends SolutionExplo
         ArrayList<ProjectModelNode> children = parentNode.getChildren(true, false);
         Map<@NotNull String, ProjectModelNode> fileNodesByName = children.stream()
             .filter(node -> node.getDescriptor() instanceof RdProjectFileDescriptor)
-            .collect(Collectors.toMap(ProjectModelNode::getName, node -> node));
+            .collect(Collectors.toMap(ProjectModelNode::getName, node -> node, (node1, node2) -> node1));
 
         if (fileNodesByName.isEmpty()) {
             return;
