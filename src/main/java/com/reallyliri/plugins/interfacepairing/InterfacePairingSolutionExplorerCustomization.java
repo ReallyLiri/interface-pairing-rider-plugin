@@ -1,17 +1,21 @@
 package com.reallyliri.plugins.interfacepairing;
 
+import com.google.common.collect.Streams;
+import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.jetbrains.rider.model.RdProjectFileDescriptor;
-import com.jetbrains.rider.projectView.nodes.ProjectModelNode;
 import com.jetbrains.rider.projectView.views.solutionExplorer.SolutionExplorerCustomization;
+import com.jetbrains.rider.projectView.workspace.ProjectModelEntity;
 import java.awt.EventQueue;
-import java.util.ArrayList;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import kotlin.sequences.Sequence;
 import org.jetbrains.annotations.NotNull;
 
 public class InterfacePairingSolutionExplorerCustomization extends SolutionExplorerCustomization {
@@ -21,20 +25,36 @@ public class InterfacePairingSolutionExplorerCustomization extends SolutionExplo
         super(project);
     }
 
-    @NotNull
     @Override
-    public List<AbstractTreeNode<?>> getChildren(@NotNull ProjectModelNode parentNode) {
-        if (!EventQueue.isDispatchThread()) {
-            setInterfacePairingSortKeys(parentNode);
-        }
-        return super.getChildren(parentNode); // always returns empty, but its fine
+    public int compareNodes(@NotNull ProjectModelEntity x, @NotNull ProjectModelEntity y) {
+        return -1 * super.compareNodes(x, y);
     }
 
-    private void setInterfacePairingSortKeys(ProjectModelNode parentNode) {
-        ArrayList<ProjectModelNode> children = parentNode.getChildren(true, false);
-        Map<@NotNull String, ProjectModelNode> fileNodesByName = children.stream()
-            .filter(node -> node.getDescriptor() instanceof RdProjectFileDescriptor)
-            .collect(Collectors.toMap(ProjectModelNode::getName, node -> node, (node1, node2) -> node1));
+    @Override
+    public void updateNode(@NotNull PresentationData presentation, @NotNull VirtualFile virtualFile) {
+        super.updateNode(presentation, virtualFile);
+    }
+
+    @Override
+    public void updateNode(@NotNull PresentationData presentation, @NotNull ProjectModelEntity entity) {
+        super.updateNode(presentation, entity);
+    }
+
+    @NotNull
+    @Override
+    public List<AbstractTreeNode<?>> getChildren(@NotNull ProjectModelEntity entity) {
+        if (!EventQueue.isDispatchThread()) {
+            setInterfacePairingSortKeys(entity);
+        }
+        return super.getChildren(entity); // always returns empty, but its fine
+    }
+
+    private void setInterfacePairingSortKeys(ProjectModelEntity entity) {
+        Sequence<ProjectModelEntity> children = entity.getChildrenEntities();
+        Map<@NotNull String, ProjectModelEntity> fileNodesByName =
+            Streams.stream(children.iterator())
+                .filter(node -> node.getDescriptor() instanceof RdProjectFileDescriptor)
+                .collect(Collectors.toMap(ProjectModelEntity::getName, node -> node, (node1, node2) -> node1));
 
         if (fileNodesByName.isEmpty()) {
             return;
@@ -58,13 +78,13 @@ public class InterfacePairingSolutionExplorerCustomization extends SolutionExplo
 
         int sortKey = 0;
         for (String currentNodeName : orderedNonInterfaceNames) {
-            ProjectModelNode currentNode = fileNodesByName.get(currentNodeName);
+            ProjectModelEntity currentNode = fileNodesByName.get(currentNodeName);
             setNodeSortKey(currentNode, sortKey);
             sortKey++;
 
             String potentialInterfaceName = String.format("I%s", currentNodeName);
             if (interfacesSet.contains(potentialInterfaceName)) {
-                ProjectModelNode interfaceNode = fileNodesByName.get(potentialInterfaceName);
+                ProjectModelEntity interfaceNode = fileNodesByName.get(potentialInterfaceName);
                 setNodeSortKey(interfaceNode, sortKey);
                 sortKey++;
             }
@@ -73,20 +93,18 @@ public class InterfacePairingSolutionExplorerCustomization extends SolutionExplo
         assert sortKey == fileNodesByName.size();
     }
 
-    private void setNodeSortKey(ProjectModelNode node, int sortKey) {
+    private void setNodeSortKey(ProjectModelEntity node, int sortKey) {
         RdProjectFileDescriptor fileDescriptor = (RdProjectFileDescriptor) node.getDescriptor();
         if (fileDescriptor.getSortKey() != null && fileDescriptor.getSortKey() == sortKey) {
             return;
         }
-        RdProjectFileDescriptor newDescriptor = new RdProjectFileDescriptor(
-            fileDescriptor.isInternal(),
-            fileDescriptor.isLinked(),
-            fileDescriptor.getBuildAction(),
-            sortKey,
-            fileDescriptor.getUserData(),
-            fileDescriptor.getName(),
-            fileDescriptor.getLocation()
-        );
-        node.updateData(newDescriptor, node.getParent());
+
+        try {
+            Field sortKeyField = fileDescriptor.getClass().getDeclaredField("sortKey");
+            sortKeyField.setAccessible(true);
+            sortKeyField.set(fileDescriptor, sortKey);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }

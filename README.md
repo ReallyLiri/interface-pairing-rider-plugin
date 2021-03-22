@@ -12,8 +12,10 @@ Pairing C# interface files with implementations files in solution explorer for a
 
 ## Build
 
+Make sure you have jdk-11 properly configured.
+
 ```bash
-gradle build
+./gradlew build
 ```
 
 Plugin artifact will be written to
@@ -24,9 +26,9 @@ Plugin artifact will be written to
 
 ```bash
 export ORG_GRADLE_PROJECT_intellijPublishToken="..."
-gradle publishPlugin
+./gradlew publishPlugin
 ```
 
 ## Debug
 
-Open in IntelliJ to simply run and debug in a real Rider instance.
+Use `runIde` gradle task to debug on a Rider instance.
