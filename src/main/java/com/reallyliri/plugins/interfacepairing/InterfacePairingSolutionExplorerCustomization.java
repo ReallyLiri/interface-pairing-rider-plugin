@@ -25,21 +25,6 @@ public class InterfacePairingSolutionExplorerCustomization extends SolutionExplo
         super(project);
     }
 
-    @Override
-    public int compareNodes(@NotNull ProjectModelEntity x, @NotNull ProjectModelEntity y) {
-        return -1 * super.compareNodes(x, y);
-    }
-
-    @Override
-    public void updateNode(@NotNull PresentationData presentation, @NotNull VirtualFile virtualFile) {
-        super.updateNode(presentation, virtualFile);
-    }
-
-    @Override
-    public void updateNode(@NotNull PresentationData presentation, @NotNull ProjectModelEntity entity) {
-        super.updateNode(presentation, entity);
-    }
-
     @NotNull
     @Override
     public List<AbstractTreeNode<?>> getChildren(@NotNull ProjectModelEntity entity) {
