@@ -1,11 +1,10 @@
 package com.reallyliri.plugins.interfacepairing;
 
 import com.google.common.collect.Streams;
-import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.jetbrains.rider.model.RdProjectFileDescriptor;
 import com.jetbrains.rider.projectView.views.solutionExplorer.SolutionExplorerCustomization;
 import com.jetbrains.rider.projectView.workspace.ProjectModelEntity;
@@ -29,6 +28,7 @@ public class InterfacePairingSolutionExplorerCustomization extends SolutionExplo
     @Override
     public List<AbstractTreeNode<?>> getChildren(@NotNull ProjectModelEntity entity) {
         if (!EventQueue.isDispatchThread()) {
+            ApplicationManager.getApplication().invokeLater(() -> setInterfacePairingSortKeys(entity)); // maybe?
             setInterfacePairingSortKeys(entity);
         }
         return super.getChildren(entity); // always returns empty, but its fine
@@ -36,7 +36,7 @@ public class InterfacePairingSolutionExplorerCustomization extends SolutionExplo
 
     private void setInterfacePairingSortKeys(ProjectModelEntity entity) {
         Sequence<ProjectModelEntity> children = entity.getChildrenEntities();
-        Map<@NotNull String, ProjectModelEntity> fileNodesByName =
+        Map<String, ProjectModelEntity> fileNodesByName =
             Streams.stream(children.iterator())
                 .filter(node -> node.getDescriptor() instanceof RdProjectFileDescriptor)
                 .collect(Collectors.toMap(ProjectModelEntity::getName, node -> node, (node1, node2) -> node1));
