@@ -8,14 +8,14 @@ import com.intellij.openapi.project.Project;
 import com.jetbrains.rider.model.RdProjectFileDescriptor;
 import com.jetbrains.rider.projectView.views.solutionExplorer.SolutionExplorerCustomization;
 import com.jetbrains.rider.projectView.workspace.ProjectModelEntity;
-import java.awt.EventQueue;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import kotlin.sequences.Sequence;
-import org.jetbrains.annotations.NotNull;
 
 public class InterfacePairingSolutionExplorerCustomization extends SolutionExplorerCustomization {
     private static final Logger log = Logger.getInstance(InterfacePairingSolutionExplorerCustomization.class);
@@ -35,31 +35,31 @@ public class InterfacePairingSolutionExplorerCustomization extends SolutionExplo
     }
 
     private void setInterfacePairingSortKeys(ProjectModelEntity entity) {
-        Sequence<ProjectModelEntity> children = entity.getChildrenEntities();
+        List<ProjectModelEntity> children = entity.getChildrenEntities();
         Map<String, ProjectModelEntity> fileNodesByName =
-            Streams.stream(children.iterator())
-                .filter(node -> node.getDescriptor() instanceof RdProjectFileDescriptor)
-                .collect(Collectors.toMap(ProjectModelEntity::getName, node -> node, (node1, node2) -> node1));
+                Streams.stream(children.iterator())
+                        .filter(node -> node.getDescriptor() instanceof RdProjectFileDescriptor)
+                        .collect(Collectors.toMap(ProjectModelEntity::getName, node -> node, (node1, node2) -> node1));
 
         if (fileNodesByName.isEmpty()) {
             return;
         }
 
         Set<String> interfacesSet = fileNodesByName.keySet().stream()
-            .filter(name -> name.endsWith(".cs"))
-            .filter(name -> name.charAt(0) == 'I')
-            .filter(name -> Character.isUpperCase(name.charAt(1)))
-            .filter(name -> fileNodesByName.containsKey(name.substring(1)))
-            .collect(Collectors.toSet());
+                .filter(name -> name.endsWith(".cs"))
+                .filter(name -> name.charAt(0) == 'I')
+                .filter(name -> Character.isUpperCase(name.charAt(1)))
+                .filter(name -> fileNodesByName.containsKey(name.substring(1)))
+                .collect(Collectors.toSet());
 
         if (interfacesSet.isEmpty()) {
             return;
         }
 
         List<String> orderedNonInterfaceNames = fileNodesByName.keySet().stream()
-            .filter(name -> !interfacesSet.contains(name))
-            .sorted()
-            .collect(Collectors.toList());
+                .filter(name -> !interfacesSet.contains(name))
+                .sorted()
+                .collect(Collectors.toList());
 
         int sortKey = 0;
         for (String currentNodeName : orderedNonInterfaceNames) {
