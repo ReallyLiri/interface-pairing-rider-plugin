@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.jetbrains.rd:rd-gen:2022.3.2") // https://search.maven.org/artifact/com.jetbrains.rd/rd-gen
+        classpath("com.jetbrains.rd:rd-gen:2022.2.0") // https://search.maven.org/artifact/com.jetbrains.rd/rd-gen
     }
 }
 
@@ -21,12 +21,8 @@ repositories {
     maven { url 'https://cache-redirector.jetbrains.com/maven-central' }
 }
 
-instrumentCode {
-    compilerVersion = "222.4345.14" // latest build of com.jetbrains.intellij.java from https://www.jetbrains.com/intellij-repository/releases/
-}
-
 group 'com.reallyliri.plugins'
-version '1.4.3'
+version '1.4.6'
 
 compileKotlin {
     kotlinOptions { jvmTarget = "17" }
@@ -36,9 +32,9 @@ dependencies {
 }
 
 intellij {
-    // see https://www.jetbrains.com/intellij-repository/snapshots
+    // see https://www.jetbrains.com/intellij-repository/releases
     type = 'RD'
-    version = "2022.2-SNAPSHOT"
+    version = "2022.2"
     downloadSources = true
 }
 
