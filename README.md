@@ -32,3 +32,5 @@ export ORG_GRADLE_PROJECT_intellijPublishToken="..."
 ## Debug
 
 Use `runIde` gradle task to debug on a Rider instance.
+
+![bigger](https://i.imgur.com/wKSWSjj.png)
