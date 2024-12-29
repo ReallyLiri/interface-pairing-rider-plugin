@@ -8,47 +8,45 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.jetbrains.rd:rd-gen:2023.3.2") // https://search.maven.org/artifact/com.jetbrains.rd/rd-gen
+        classpath("com.jetbrains.rd:rd-gen:2024.3.1") // https://search.maven.org/artifact/com.jetbrains.rd/rd-gen
     }
 }
 
 plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '1.9.22'
-    id 'org.jetbrains.intellij' version '1.17.4'     // https://github.com/JetBrains/gradle-intellij-plugin/releases
+    id 'org.jetbrains.intellij.platform' version '2.2.0'
     id 'me.filippov.gradle.jvm.wrapper' version '0.14.0'
 }
 
 repositories {
-    maven { url 'https://cache-redirector.jetbrains.com/intellij-repository/snapshots' }
-    maven { url 'https://cache-redirector.jetbrains.com/maven-central' }
+    mavenCentral()
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
 group 'com.reallyliri.plugins'
-version '1.6.1'
+version '1.7'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
 }
 
 tasks.withType(KotlinJvmCompile).configureEach {
     compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
+        jvmTarget.set(JvmTarget.JVM_21)
     }
 }
 
 dependencies {
-}
-
-intellij {
-    // see https://www.jetbrains.com/intellij-repository/releases
-    type = 'RD'
-    version = "2024.1.3"
-    downloadSources = true
+    intellijPlatform {
+        rider('2024.3')
+    }
 }
 
 publishPlugin {

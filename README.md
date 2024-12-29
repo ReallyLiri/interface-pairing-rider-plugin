@@ -12,7 +12,7 @@ Pairing C# interface files with implementations files in solution explorer for a
 
 ## Build
 
-Make sure you have jdk-11 properly configured.
+Make sure you have jdk-21 properly configured.
 
 ```bash
 ./gradlew build
