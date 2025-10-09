@@ -2,8 +2,8 @@
     <id>com.reallyliri.plugins.interfacepairing</id>
     <name>Interface Pairing</name>
     <vendor url="https://github.com/reallyliri">ReallyLiri</vendor>
-    <version>1.6.1</version>
-    <idea-version since-build="233" />
+    <version>1.8</version>
+    <idea-version since-build="252" />
 
     <description>Pairing C# interface files with implementations files in solution explorer for a better display experience.</description>
 
