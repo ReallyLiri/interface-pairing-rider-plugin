@@ -8,15 +8,15 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.jetbrains.rd:rd-gen:2025.3.1") // https://central.sonatype.com/artifact/com.jetbrains.rd/rd-gen
+        classpath("com.jetbrains.rd:rd-gen:2026.1.2") // https://central.sonatype.com/artifact/com.jetbrains.rd/rd-gen
     }
 }
 
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.9.22'
-    id 'org.jetbrains.intellij.platform' version '2.2.0'
-    id 'me.filippov.gradle.jvm.wrapper' version '0.14.0'
+    id 'org.jetbrains.kotlin.jvm' version '2.3.10'
+    id 'org.jetbrains.intellij.platform' version '2.10.5'
+    id 'me.filippov.gradle.jvm.wrapper' version '0.15.0'
 }
 
 repositories {
@@ -27,7 +27,7 @@ repositories {
 }
 
 group 'com.reallyliri.plugins'
-version '1.9'
+version '1.10'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -45,7 +45,7 @@ tasks.withType(KotlinJvmCompile).configureEach {
 
 dependencies {
     intellijPlatform {
-        rider('2025.3.2')
+        rider('2025.3.2') // https://www.jetbrains.com/updates/updates.xml
     }
 }
 
