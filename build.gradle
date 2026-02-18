@@ -28,6 +28,16 @@ repositories {
 
 group 'com.reallyliri.plugins'
 version '1.10'
+def pluginSinceBuild = '261'
+
+processResources {
+    filesMatching('META-INF/plugin.xml') {
+        expand(
+            pluginVersion: project.version,
+            pluginSinceBuild: pluginSinceBuild
+        )
+    }
+}
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
